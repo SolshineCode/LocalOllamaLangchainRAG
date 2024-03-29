@@ -13,16 +13,23 @@ from langchain.chains import create_retrieval_chain
 from langchain_core.prompts import ChatPromptTemplate
 print("OllamaLangchainRAG.py is running")
 
-llm = Ollama(model="llama2") #Natural Farmer Model Specified here
+#For Debugging set langchain.debug = True otherwise False
+import langchain langchain.debug = True
 
-user_prompt = "how can langsmith help with testing?" #Enter your question here
+llm = Ollama(model="example") #Natural Farmer Model Specified here
+
+# Pass your question + URL here in quotes as:
+# Question is 1st argument when calling the program to run
+# URL is 2nd argument when calling the program to run
+user_prompt = sys.argv[1] 
+URL_to_RAG = sys.argv[2]
 
 #Establish Ollama Embeddings
 embeddings = OllamaEmbeddings()
 
 #Website based loaded - TO BE UPDATED WITH LOCAL SOLUTION
 from langchain_community.document_loaders import WebBaseLoader
-loader = WebBaseLoader("https://docs.smith.langchain.com/user_guide") #change website for Docs
+loader = WebBaseLoader(URL_to_RAG) #change website for Docs
 docs = loader.load()
 print("Loaded documents")
       
@@ -56,9 +63,9 @@ print("Created retrieval chain")
 
 # Now we can ask a question by invoking the chain
 response = retrieval_chain.invoke({"input": user_prompt})
-                # ***** REMEMBER TO SET user_prompt to the user's question ******
+                
 print(response["answer"])
-print("context: " + context)
+print("Context: " + str(response["context"]))
 # Note from Docs: LangSmith offers several features that can help with testing:...
 
 
