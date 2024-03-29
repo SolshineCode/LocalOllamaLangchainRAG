@@ -1,0 +1,8 @@
+numpy
+langchain
+langchain-community
+langchainhub
+chromadb
+bs4
+faiss-cpu
+beautifulsoup4
